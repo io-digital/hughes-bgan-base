@@ -9,37 +9,60 @@ module.exports = class ATCmdBase extends EventEmitter
   responses = 0
   nExpectedResponses = 0
 
-  commandBuffer = new buffering().on('flush', (data) ->
-    socket.write(data[0])
-    commandBuffer.pause()
+  commandBuffer = new buffering().on(
+    'flush',
+    ((data) ->
+      socket.write(data[0])
+      @pause()
+    ).bind(commandBuffer)
   )
 
   constructor: (opts) ->
 
-    { @host,
-      @port,
-      @password,
-      @queue,
+    {
       @stripResponses,
+      @password,
+      @commands,
+      @connect,
       @onData,
-      @onEnd } = opts
+      @onEnd,
+      @host,
+      @port
+    } = opts
 
-    unless @host and @port and @queue
+    unless @host and @port and Array.isArray(@commands)
       throw new Error('A socket address and command queue are required.')
 
-    nExpectedResponses = @queue.length ? 0
+    nExpectedResponses = @commands.length ? 0
+
+    @queue = @commands[..]
     @responses = []
 
-    @on('data', @onData)
-    @on('end', @onEnd)
+    if typeof @onData is 'function'
+      @on('data', @onData)
+
+    if typeof @onEnd is 'function'
+      @on('end', @onEnd)
 
     socket.on('data', (data) =>
 
+      # NOTE: TODO.md item 1
       # this is freaking ugly, but it's the only
       # sane way i can think of to tally the AT
       # command OK/ERROR responses (which will
       # let us know when we've got all the
       # messages back)
+      #
+      # once the has been transformed, it ought
+      # to be possible to do something like:
+      #
+      # sanitiser = new sanitiser(data.toString())
+      #
+      # sanitiser.parsed.forEach((response) =>
+      #   if (response is 'OK' or response is 'ERROR')
+      #     responses++
+      #   @responses.push(response)
+      # )
       sanitiser
         .setChunk(data.toString())
         .stripCRLF()
@@ -96,10 +119,14 @@ module.exports = class ATCmdBase extends EventEmitter
         socket.emit('end')
     )
 
-    process.nextTick( =>
-      socket.connect(@port, @host, =>
-        console.log('ESTABLISHED CONNECTION', socket.address())
-        commandBuffer.enqueue(@queue.splice(0, 1))
-        commandBuffer.flush()
+    if @autoConnect
+      process.nextTick( =>
+        @connect()
       )
+
+  connect: =>
+    socket.connect(@port, @host, =>
+      process.emit('log:info', 'established connection', socket.address())
+      commandBuffer.enqueue(@queue.splice(0, 1))
+      commandBuffer.flush()
     )
