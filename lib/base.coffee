@@ -14,21 +14,24 @@ module.exports = class ATCmdBase extends EventEmitter
     commandBuffer.pause()
   )
 
-  constructor: (
-    @bganHost,
-    @bganPort,
-    @bganPassword,
-    @queue = [],
-    @stripOKERROR = false,
-    @dataListener,
-    @finishedListener
-  ) ->
+  constructor: (opts) ->
+
+    { @host,
+      @port,
+      @password,
+      @queue,
+      @stripResponses,
+      @onData,
+      @onEnd } = opts
+
+    unless @host and @port and @queue
+      throw new Error('A socket address and command queue are required.')
+
+    nExpectedResponses = @queue.length ? 0
     @responses = []
 
-    @on('data', @dataListener)
-    @on('finished', @finishedListener)
-
-    nExpectedResponses = @queue.length
+    @on('data', @onData)
+    @on('end', @onEnd)
 
     socket.on('data', (data) =>
 
@@ -89,10 +92,14 @@ module.exports = class ATCmdBase extends EventEmitter
         commandBuffer.flush()
 
       if responses is nExpectedResponses
-        @emit('finished', @responses)
+        @emit('end', @responses)
         socket.emit('end')
-    ).connect(@bganPort, @bganHost, =>
-      console.log('ESTABLISHED CONNECTION', socket.address())
-      commandBuffer.enqueue(@queue.splice(0, 1))
-      commandBuffer.flush()
+    )
+
+    process.nextTick( =>
+      socket.connect(@port, @host, =>
+        console.log('ESTABLISHED CONNECTION', socket.address())
+        commandBuffer.enqueue(@queue.splice(0, 1))
+        commandBuffer.flush()
+      )
     )
