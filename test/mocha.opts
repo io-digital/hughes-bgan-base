@@ -1,3 +1,2 @@
---require assert
 --reporter nyan
 --compilers coffee:coffee-script/register

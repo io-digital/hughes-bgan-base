@@ -1,7 +1,7 @@
 
 {EventEmitter} = require('events')
 buffering      = require('node-buffering')
-sanitiser      = new (require('./sanitiser'))()
+Sanitiser      = require('./sanitiser')
 socket         = require('./socket')
 
 module.exports = class ATCmdBase extends EventEmitter
@@ -46,68 +46,21 @@ module.exports = class ATCmdBase extends EventEmitter
 
     socket.on('data', (data) =>
 
-      # NOTE: TODO.md item 1
-      # this is freaking ugly, but it's the only
-      # sane way i can think of to tally the AT
-      # command OK/ERROR responses (which will
-      # let us know when we've got all the
-      # messages back)
-      #
-      # once the has been transformed, it ought
-      # to be possible to do something like:
-      #
-      # sanitiser = new sanitiser(data.toString())
-      #
-      # sanitiser.parsed.forEach((response) =>
-      #   if (response is 'OK' or response is 'ERROR')
-      #     responses++
-      #   @responses.push(response)
-      # )
-      sanitiser
-        .setChunk(data.toString())
-        .stripCRLF()
-        .stripCommas()
-        .insertBreaks()
-        .split()
-        .trim()
-        .value()
-        .forEach((response) ->
-          if (response is 'OK' or response is 'ERROR')
-            responses++
-        )
+      strung = data.toString()
 
-      sanitiser.setChunk(data.toString())
+      sanitiser = new Sanitiser(strung)
+      sanitiser.parsed.forEach((response) ->
+        if (response is 'OK' or response is 'ERROR')
+          responses++
+      )
 
       if @stripResponses
-        @responses = @responses.concat(
-          sanitiser
-            .stripERROR()
-            .stripOK()
-            .stripCRLF()
-            .stripCommas()
-            .insertBreaks()
-            .split()
-            .trim()
-            .deleteOKERROR()
-            .value()
-        )
+        @responses = @responses.concat(sanitiser.stripped)
       else
-        @responses = @responses.concat(
-          sanitiser
-            .stripCRLF()
-            .stripCommas()
-            .insertBreaks()
-            .split()
-            .trim()
-            .value()
-        )
+        @responses = @responses.concat(sanitiser.parsed)
 
       if @responses.length
-        @emit(
-          'data',
-          @responses[@responses.length - 1],
-          data.toString()
-        )
+        @emit('data', @responses[@responses.length - 1], data.toString())
 
       if @queue.length
         commandBuffer.resume()
