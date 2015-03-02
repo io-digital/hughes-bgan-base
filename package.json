@@ -1,6 +1,6 @@
 {
   "name": "hughes-bgan-base",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/index.js",
   "description": "A base socket context and AT command throttler for Hughes BGAN terminals",
   "scripts": {
@@ -11,7 +11,7 @@
     "clean": "rm -rf lib && mv src lib",
     "prepublish": "npm run build",
     "postpublish": "npm run clean",
-    "publish": "npm run lint && npm test && npm publish"
+    "release": "npm run lint && npm test && npm publish"
   },
   "license": "MIT",
   "author": "Ant Cosentino <ant@io.co.za>",
