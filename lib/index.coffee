@@ -1,2 +1,4 @@
 
-module.exports = require('./base')
+module.exports =
+  base: require('./base')
+  commander: require('./commander')
