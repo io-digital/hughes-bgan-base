@@ -55,7 +55,7 @@ module.exports = class ATCmdBase extends EventEmitter
 
       sanitiser.setChunk(data.toString())
 
-      if @stripOKERROR
+      if @stripResponses
         @responses = @responses.concat(
           sanitiser
             .stripERROR()
