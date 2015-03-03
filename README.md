@@ -11,19 +11,21 @@ A base package for communication to a Hughes BGAN device.
 ```javascript
 var bgan = require('hughes-bgan-base');
 
+var _ = new bgan.commander('password');
+
 var base = new bgan.base({
   host: '123.234.234.123',
   port: 11000,
   password: 'default',
-  connect: true,
   queue: [
     'at e1',
     'at d +441494712784',
-    'at h0'
+    'at h0',
+    _.iclck('ad', '1')
   ],
   stripResponses: true
 }).on('data', function(parsed, raw) {
 }).on('end', function(lines) {
   // lines: [ 'OK', 'CONNECT', 'OK' ]
-});
+}).connect();
 ```

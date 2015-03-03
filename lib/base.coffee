@@ -21,7 +21,6 @@ module.exports = class ATCmdBase extends EventEmitter
     {
       @stripResponses,
       @autoConnect,
-      @password,
       @commands,
       @onData,
       @onEnd,
