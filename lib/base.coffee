@@ -11,10 +11,9 @@ module.exports = class ATCmdBase extends EventEmitter
 
   commandBuffer = new buffering().on(
     'flush',
-    ((data) ->
+    (data) ->
       socket.write(data[0])
       commandBuffer.pause()
-    )
   )
 
   constructor: (opts) ->

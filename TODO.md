@@ -1,2 +1,2 @@
-- [ ] rewrite the AT command output parser (sanitiser). should be easier to split around '\r\n' instead of regex replacing the \r\n.
-- [ ] inline as many functions as possible into sanitiser
+- [x] rewrite the AT command output parser (sanitiser). should be easier to split around '\r\n' instead of regex replacing the \r\n.
+- [x] inline as many functions as possible into sanitiser
