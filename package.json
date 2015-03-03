@@ -1,6 +1,6 @@
 {
   "name": "hughes-bgan-base",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "lib/index.js",
   "description": "A base socket context and AT command throttler for Hughes BGAN terminals",
   "scripts": {
