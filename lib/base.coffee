@@ -21,16 +21,16 @@ module.exports = class ATCmdBase extends EventEmitter
 
     {
       @stripResponses,
+      @autoConnect,
       @password,
       @commands,
-      @autoConnect,
       @onData,
       @onEnd,
       @host,
       @port
     } = opts
 
-    unless @host and @port and Array.isArray(@commands)
+    unless opts and @host and @port and Array.isArray(@commands)
       throw new Error('A socket address and command queue are required.')
 
     nExpectedResponses = @commands.length ? 0
@@ -47,12 +47,11 @@ module.exports = class ATCmdBase extends EventEmitter
     socket.on('data', (data) =>
 
       strung = data.toString()
-
       sanitiser = new Sanitiser(strung)
-      sanitiser.parsed.forEach((response) ->
+
+      for response in sanitiser.parsed
         if (response is 'OK' or response is 'ERROR')
           responses++
-      )
 
       if @stripResponses
         @responses = @responses.concat(sanitiser.stripped)
@@ -60,7 +59,7 @@ module.exports = class ATCmdBase extends EventEmitter
         @responses = @responses.concat(sanitiser.parsed)
 
       if @responses.length
-        @emit('data', @responses[@responses.length - 1], data.toString())
+        @emit('data', @responses[@responses.length - 1], strung)
 
       if @queue.length
         commandBuffer.resume()
@@ -79,7 +78,6 @@ module.exports = class ATCmdBase extends EventEmitter
 
   connect: =>
     socket.connect(@port, @host, =>
-      process.emit('log:info', 'established connection', socket.address())
       commandBuffer.enqueue(@queue.splice(0, 1))
       commandBuffer.flush()
     )
