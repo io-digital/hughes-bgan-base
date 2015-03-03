@@ -1,5 +1,5 @@
 
-module.exports = class Sanitiser
+module.exports = class Parser
 
   constructor: (@raw, @inputDelimiter = '\r\n', @outputDelimiter = '\n') ->
     @parsed = @raw.split(@inputDelimiter)

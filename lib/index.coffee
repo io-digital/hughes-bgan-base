@@ -1,4 +1,6 @@
 
 module.exports =
-  base: require('./base')
   commander: require('./commander')
+  socket: require('./socket')
+  parser: require('./parser')
+  base: require('./base')

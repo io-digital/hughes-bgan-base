@@ -1,7 +1,7 @@
 
 {EventEmitter} = require('events')
-buffering      = require('node-buffering')
-Sanitiser      = require('./sanitiser')
+Buffering      = require('node-buffering')
+Parser         = require('./parser')
 socket         = require('./socket')
 
 module.exports = class ATCmdBase extends EventEmitter
@@ -9,7 +9,7 @@ module.exports = class ATCmdBase extends EventEmitter
   responses = 0
   nExpectedResponses = 0
 
-  commandBuffer = new buffering().on(
+  commandBuffer = new Buffering().on(
     'flush',
     (data) ->
       socket.write(data[0])
@@ -46,16 +46,16 @@ module.exports = class ATCmdBase extends EventEmitter
     socket.on('data', (data) =>
 
       strung = data.toString()
-      sanitiser = new Sanitiser(strung)
+      parser = new Parser(strung)
 
-      for response in sanitiser.parsed
+      for response in parser.parsed
         if (response is 'OK' or response is 'ERROR')
           responses++
 
       if @stripResponses
-        @responses = @responses.concat(sanitiser.stripped)
+        @responses = @responses.concat(parser.stripped)
       else
-        @responses = @responses.concat(sanitiser.parsed)
+        @responses = @responses.concat(parser.parsed)
 
       if @responses.length
         @emit('data', @responses[@responses.length - 1], strung)
