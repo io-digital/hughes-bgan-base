@@ -13,8 +13,8 @@ module.exports = class ATCmdBase extends EventEmitter
     'flush',
     ((data) ->
       socket.write(data[0])
-      @pause()
-    ).bind(commandBuffer)
+      commandBuffer.pause()
+    )
   )
 
   constructor: (opts) ->
@@ -23,7 +23,7 @@ module.exports = class ATCmdBase extends EventEmitter
       @stripResponses,
       @password,
       @commands,
-      @connect,
+      @autoConnect,
       @onData,
       @onEnd,
       @host,
