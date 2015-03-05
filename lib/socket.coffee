@@ -1,16 +1,13 @@
 
 net = require('net')
-socket = new net.Socket()
 
-socket.setTimeout(30000)
+class Socket extends net.Socket
 
-destruct = ->
-  socket.unref()
-  socket.destroy()
+  constructor: ->
+    super()
+    @setTimeout(30000)
+    @on('end', @destroy)
+    @on('error', @destroy)
+    @on('timeout', @destroy)
 
-socket
-  .on('end', destruct)
-  .on('error', destruct)
-  .on('timeout', destruct)
-
-module.exports = socket
+module.exports = new Socket()
