@@ -247,36 +247,38 @@ module.exports = class Commander
     "at+cres=#{profile}#{@lineEnding}"
 
   cgdcont: (cid, type, apn, pdpaddr, dcomp, hcomp, pd1, pd2, pd3, pd4) =>
-    if cid
-      if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4
-        "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\"#{@lineEnding}"
-      else if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3
-        "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\"#{@lineEnding}"
-      else if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2
-        "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\"#{@lineEnding}"
-      else if type and apn and pdpaddr and dcomp and hcomp and pd1
-        "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\"#{@lineEnding}"
-      else if type and apn and pdpaddr and dcomp and hcomp
-        "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp}#{@lineEnding}"
-      else if type and apn and pdpaddr and dcomp
-        "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp}#{@lineEnding}"
-      else if type and apn and pdpaddr
-        "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\"#{@lineEnding}"
-      else if type and apn
-        "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\"#{@lineEnding}"
-      else if type
-        "at+cgdcont=#{cid},\"#{type}\"#{@lineEnding}"
+    if cid and type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4
+      "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\"#{@lineEnding}"
+    else if cid and type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3
+      "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\"#{@lineEnding}"
+    else if cid and type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2
+      "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\"#{@lineEnding}"
+    else if cid and type and apn and pdpaddr and dcomp and hcomp and pd1
+      "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\"#{@lineEnding}"
+    else if cid and type and apn and pdpaddr and dcomp and hcomp
+      "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp}#{@lineEnding}"
+    else if cid and type and apn and pdpaddr and dcomp
+      "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp}#{@lineEnding}"
+    else if cid and type and apn and pdpaddr
+      "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\",\"#{pdpaddr}\"#{@lineEnding}"
+    else if cid and type and apn
+      "at+cgdcont=#{cid},\"#{type}\",\"#{apn}\"#{@lineEnding}"
+    else if cid and type
+      "at+cgdcont=#{cid},\"#{type}\"#{@lineEnding}"
+    else if cid
+      "at+cgdcont=#{cid}#{@lineEnding}"
     else
       "at+cgdcont?#{@lineEnding}"
 
   cgdscont: (cid, pcid, dcomp, hcomp) =>
-    if cid
-      if pcid and dcomp and hcomp
-        "at+cgdscont=#{cid},#{pcid},#{dcomp},#{hcomp}#{@lineEnding}"
-      else if pcid and dcomp
-        "at+cgdscont=#{cid},#{pcid},#{dcomp}#{@lineEnding}"
-      else if pcid
-        "at+cgdscont=#{cid},#{pcid}#{@lineEnding}"
+    if cid and pcid and dcomp and hcomp
+      "at+cgdscont=#{cid},#{pcid},#{dcomp},#{hcomp}#{@lineEnding}"
+    else if cid and pcid and dcomp
+      "at+cgdscont=#{cid},#{pcid},#{dcomp}#{@lineEnding}"
+    else if cid and pcid
+      "at+cgdscont=#{cid},#{pcid}#{@lineEnding}"
+    else if cid
+      "at+cgdscont=#{cid}#{@lineEnding}"
     else
       "at+cgdscont?#{@lineEnding}"
 
@@ -454,50 +456,52 @@ module.exports = class Commander
       "at_ihset?#{@lineEnding}"
 
   ihdefcnt: (type, apn, pdpaddr, dcomp, hcomp, pd1, pd2, pd3, pd4, traffic, maxbrul, maxbrdl, guarbrul, guarbrdl) =>
-    if type
-      if apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic and maxbrul and maxbrdl and guarbrul and guarbrdl
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic},#{maxbrul},#{maxbrdl},#{guarbrul},#{guarbrdl}#{@lineEnding}"
-      else if apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic and maxbrul and maxbrdl and guarbrul
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic},#{maxbrul},#{maxbrdl},#{guarbrul}#{@lineEnding}"
-      else if apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic and maxbrul and maxbrdl
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic},#{maxbrul},#{maxbrdl}#{@lineEnding}"
-      else if apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic and maxbrul
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic},#{maxbrul}#{@lineEnding}"
-      else if apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic}#{@lineEnding}"
-      else if apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\"#{@lineEnding}"
-      else if apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\"#{@lineEnding}"
-      else if apn and pdpaddr and dcomp and hcomp and pd1 and pd2
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\"#{@lineEnding}"
-      else if apn and pdpaddr and dcomp and hcomp and pd1
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\"#{@lineEnding}"
-      else if apn and pdpaddr and dcomp and hcomp
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp}#{@lineEnding}"
-      else if apn and pdpaddr and dcomp
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp}#{@lineEnding}"
-      else if apn and pdpaddr
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\"#{@lineEnding}"
-      else if apn
-        "at_ihdefcnt=\"#{type}\",\"#{apn}\"#{@lineEnding}"
+    if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic and maxbrul and maxbrdl and guarbrul and guarbrdl
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic},#{maxbrul},#{maxbrdl},#{guarbrul},#{guarbrdl}#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic and maxbrul and maxbrdl and guarbrul
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic},#{maxbrul},#{maxbrdl},#{guarbrul}#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic and maxbrul and maxbrdl
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic},#{maxbrul},#{maxbrdl}#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic and maxbrul
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic},#{maxbrul}#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4 and traffic
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\",#{traffic}#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3 and pd4
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\",\"#{pd4}\"#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2 and pd3
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\",\"#{pd3}\"#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp and hcomp and pd1 and pd2
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\",\"#{pd2}\"#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp and hcomp and pd1
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp},\"#{pd1}\"#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp and hcomp
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp},#{hcomp}#{@lineEnding}"
+    else if type and apn and pdpaddr and dcomp
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\",#{dcomp}#{@lineEnding}"
+    else if type and apn and pdpaddr
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\",\"#{pdpaddr}\"#{@lineEnding}"
+    else if type and apn
+      "at_ihdefcnt=\"#{type}\",\"#{apn}\"#{@lineEnding}"
+    else if type
+      "at_ihdefcnt=\"#{type}\"#{@lineEnding}"
     else
       "at_ihdefcnt?#{@lineEnding}"
 
   ihaca: (acaid, enable, loip, hiip, qos, apn, username, password, alwayson) =>
-    if acaid and enable
-      if loip and hiip and qos and apn and username and password and alwayson
-        "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos},\"#{apn}\",\"#{username}\",\"#{password}\",#{alwayson}#{@lineEnding}"
-      else if loip and hiip and qos and apn and username and password
-        "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos},\"#{apn}\",\"#{username}\",\"#{password}\"#{@lineEnding}"
-      else if loip and hiip and qos and apn and username
-        "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos},\"#{apn}\",\"#{username}\"#{@lineEnding}"
-      else if loip and hiip and qos and apn
-        "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos},\"#{apn}\"#{@lineEnding}"
-      else if loip and hiip and qos
-        "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos}#{@lineEnding}"
-      else if loip and hiip
-        "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\"#{@lineEnding}"
+    if acaid and enable and loip and hiip and qos and apn and username and password and alwayson
+      "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos},\"#{apn}\",\"#{username}\",\"#{password}\",#{alwayson}#{@lineEnding}"
+    else if acaid and enable and loip and hiip and qos and apn and username and password
+      "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos},\"#{apn}\",\"#{username}\",\"#{password}\"#{@lineEnding}"
+    else if acaid and enable and loip and hiip and qos and apn and username
+      "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos},\"#{apn}\",\"#{username}\"#{@lineEnding}"
+    else if acaid and enable and loip and hiip and qos and apn
+      "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos},\"#{apn}\"#{@lineEnding}"
+    else if acaid and enable and loip and hiip and qos
+      "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\",#{qos}#{@lineEnding}"
+    else if acaid and enable and loip and hiip
+      "at_ihaca=#{acaid},#{enable},\"#{loip}\",\"#{hiip}\"#{@lineEnding}"
+    else if acaid and enable
+      "at_ihaca=#{acaid},#{enable}#{@lineEnding}"
     else
       "at_ihaca?#{@lineEnding}"
 
