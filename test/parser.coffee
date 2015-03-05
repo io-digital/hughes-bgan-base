@@ -10,11 +10,11 @@ describe 'Parser', ->
   test2 = '_ISIG: 65, -5.32342, 34:as:23:c3:sd\r\nERROR\r\n'
   test3 = '_ISIG: 65, -5.32342, 34:as:23:c3:sd \r\nERROR\r\n'
 
-  it 'should construct without throwing', ->
-    try
-      new Parser(test1)
-    catch err
-      assert.fail(err)
+  it 'should initialise the properties parsed and stripped to empty arrays if raw is falsy', ->
+
+    parser = new Parser()
+    expect(parser.parsed).to.deep.equal([])
+    expect(parser.stripped).to.deep.equal([])
 
   it 'should assign the parsed result to a a field named parsed', ->
 

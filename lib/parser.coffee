@@ -2,6 +2,12 @@
 module.exports = class Parser
 
   constructor: (@raw, @inputDelimiter = '\r\n', @outputDelimiter = '\n') ->
+
+    unless @raw
+      @parsed = []
+      @stripped = []
+      return
+
     @parsed = @raw.split(@inputDelimiter)
     for token, i in @parsed
       if token is ''

@@ -2,10 +2,14 @@
 module.exports = class Commander
 
   constructor: (@password = '', @lineEnding = '\r\n') ->
+    unless @password
+      throw new Error('A password is required')
 
   $$: (prefix, mode) =>
     if prefix and mode
       "at ??=\"#{prefix}\",#{mode}#{@lineEnding}"
+    else if prefix
+      "at ??=\"#{prefix}\"#{@lineEnding}"
     else
       "at ??#{@lineEnding}"
 
@@ -374,7 +378,7 @@ module.exports = class Commander
     "at_ibnotify=\"#{command}\",#{status}#{@lineEnding}"
 
   igetfw: (mode, serverip, serveruname, serverpw, apnname, apnuname, apnpw) =>
-    if mode and serverid and serveruname and serverpw and apnname and apnuname and apnpw
+    if mode and serverip and serveruname and serverpw and apnname and apnuname and apnpw
       "at_igetfw=#{mode},\"#{serverip}\",\"#{serveruname}\",\"#{serverpw}\",\"#{apnname}\",\"#{apnuname}\",\"#{apnpw}\"#{@lineEnding}"
     else
       "at_igetfw?#{@lineEnding}"
