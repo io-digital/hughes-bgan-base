@@ -8,7 +8,7 @@
 [![Coverage Status](https://coveralls.io/repos/io-digital/hughes-bgan-base/badge.svg?branch=master)](https://coveralls.io/r/io-digital/hughes-bgan-base?branch=master)
 [![Dependency Status](https://david-dm.org/io-digital/hughes-bgan-base.svg)](https://david-dm.org/io-digital/hughes-bgan-base)
 
-A base package for communication to a Hughes BGAN device.
+A base socket context and AT command throttler to facilitate communication between Hughes BGAN devices and Node hosts.
 
 ##### usage example
 
