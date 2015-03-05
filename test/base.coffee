@@ -40,6 +40,28 @@ describe 'Base', ->
       newBase = -> new Base({})
       expect(newBase).to.throw()
 
+    it 'should assign all valid construction options to instance variables', ->
+
+      base = new Base({
+        stripResponses: true,
+        autoConnect: false,
+        commands: [],
+        onData: ->,
+        onEnd: ->,
+        host: '123.123.123.123',
+        port: 1234
+      })
+
+      expect(base).to.contain.keys([
+        'stripResponses',
+        'autoConnect',
+        'commands',
+        'onData',
+        'onEnd',
+        'host',
+        'port'
+      ])
+
   describe '#commandBuffer', ->
 
     it 'should be unpaused at construction time', ->
