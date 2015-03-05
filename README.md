@@ -2,10 +2,11 @@
 
 [![NPM](https://nodei.co/npm/hughes-bgan-base.png?compact=true)](https://nodei.co/npm/hughes-bgan-base/)
 
-[![Build Status](https://travis-ci.org/io-digital/hughes-bgan-base.svg)](https://travis-ci.org/io-digital/hughes-bgan-base)
-[![Coverage Status](https://coveralls.io/repos/io-digital/hughes-bgan-base/badge.svg?branch=master)](https://coveralls.io/r/io-digital/hughes-bgan-base?branch=master)
 [![Dependency Status](https://david-dm.org/io-digital/hughes-bgan-base.svg)](https://david-dm.org/io-digital/hughes-bgan-base)
 [![devDependency Status](https://david-dm.org/io-digital/hughes-bgan-base/dev-status.svg)](https://david-dm.org/io-digital/hughes-bgan-base#info=devDependencies)
+
+[![Build Status](https://travis-ci.org/io-digital/hughes-bgan-base.svg)](https://travis-ci.org/io-digital/hughes-bgan-base)
+[![Coverage Status](https://coveralls.io/repos/io-digital/hughes-bgan-base/badge.svg?branch=master)](https://coveralls.io/r/io-digital/hughes-bgan-base?branch=master)
 
 A base package for communication to a Hughes BGAN device.
 
