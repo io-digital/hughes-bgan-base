@@ -119,7 +119,7 @@ describe 'Base', ->
       base = new Base({
         stripResponses: true,
         autoConnect: false,
-        commands: [],
+        commands: ['abc', '123', '456'],
         onData: ->,
         onEnd: ->,
         host: '123.123.123.123',
@@ -127,9 +127,31 @@ describe 'Base', ->
       })
 
       baseSocketConnectSpy = sinon.spy(base.socket, 'connect')
-      try
-        base.connect()
-      catch err
-        # it's *going* to throw
-        # just ignore it
-        expect(baseSocketConnectSpy).to.have.been.called
+
+      expect(base.connect).to.not.throw()
+      expect(baseSocketConnectSpy).to.have.been.called
+
+    it 'should enqueue and flush a command on socket connect', ->
+
+      base = new Base({
+        stripResponses: true,
+        autoConnect: false,
+        commands: ['abc', '123', '456'],
+        onData: ->,
+        onEnd: ->,
+        host: '123.123.123.123',
+        port: 1234
+      })
+
+      baseCommandBufferEnqueueSpy = sinon.spy(base.commandBuffer, 'enqueue')
+      baseCommandBufferFlushSpy = sinon.spy(base.commandBuffer, 'flush')
+      baseQueueSpliceSpy = sinon.spy(base.queue, 'splice')
+
+      expect(base.connect).to.not.throw()
+
+      # cause the base.socket callback to fire
+      base.socket.emit('connect')
+
+      expect(baseQueueSpliceSpy).to.have.been.called
+      expect(baseCommandBufferEnqueueSpy).to.have.been.called
+      expect(baseCommandBufferFlushSpy).to.have.been.called
