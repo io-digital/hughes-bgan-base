@@ -1,17 +1,16 @@
 # hughes-bgan-base
 
+[![NPM](https://nodei.co/npm/hughes-bgan-base.png?compact=true)](https://nodei.co/npm/hughes-bgan-base/)
 [![Build Status](https://travis-ci.org/io-digital/hughes-bgan-base.svg)](https://travis-ci.org/io-digital/hughes-bgan-base)
 [![Coverage Status](https://coveralls.io/repos/io-digital/hughes-bgan-base/badge.svg?branch=master)](https://coveralls.io/r/io-digital/hughes-bgan-base?branch=master)
-[![NPM](https://nodei.co/npm/hughes-bgan-base.png?mini=true)](https://nodei.co/npm/hughes-bgan-base/)
 
 A base package for communication to a Hughes BGAN device.
 
 ##### usage example
 
 ```javascript
-var bgan = require('hughes-bgan-base');
-
-var _ = new bgan.commander('password');
+var bgan = require('hughes-bgan-base'),
+    _ = new bgan.commander('password');
 
 var base = new bgan.base({
   host: '123.234.234.123',
@@ -23,9 +22,9 @@ var base = new bgan.base({
     'at h0',
     _.iclck('ad', '1')
   ],
-  stripResponses: true
-}).on('data', function(parsed, raw) {
-}).on('end', function(lines) {
-  // lines: [ 'OK', 'CONNECT', 'OK' ]
-}).connect();
+  autoConnect: true,
+  stripResponses: true,
+  onData:  function(parsed, raw) {},
+  onEnd: function(lines) {}
+});
 ```
