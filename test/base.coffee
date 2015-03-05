@@ -111,3 +111,25 @@ describe 'Base', ->
         process.nextTick ->
           base.socket.emit('data', new Buffer(0x4f, 0x12f))
           expect(socketWriteSpy).to.have.been.called
+
+  describe '#connect', ->
+
+    it 'should call base.socket.connect on base.connect', ->
+
+      base = new Base({
+        stripResponses: true,
+        autoConnect: false,
+        commands: [],
+        onData: ->,
+        onEnd: ->,
+        host: '123.123.123.123',
+        port: 1234
+      })
+
+      baseSocketConnectSpy = sinon.spy(base.socket, 'connect')
+      try
+        base.connect()
+      catch err
+        # it's *going* to throw
+        # just ignore it
+        expect(baseSocketConnectSpy).to.have.been.called
