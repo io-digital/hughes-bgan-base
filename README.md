@@ -19,8 +19,7 @@ var bgan = require('hughes-bgan-base'),
 var base = new bgan.base({
   host: '123.234.234.123',
   port: 11000,
-  password: 'default',
-  queue: [
+  commands: [
     'at e1',
     'at d +441494712784',
     'at h0',
