@@ -5,8 +5,8 @@
 [![Build Status](https://travis-ci.org/io-digital/hughes-bgan-base.svg)](https://travis-ci.org/io-digital/hughes-bgan-base)
 [![devDependency Status](https://david-dm.org/io-digital/hughes-bgan-base/dev-status.svg)](https://david-dm.org/io-digital/hughes-bgan-base#info=devDependencies)
 
-[![Dependency Status](https://david-dm.org/io-digital/hughes-bgan-base.svg)](https://david-dm.org/io-digital/hughes-bgan-base)
 [![Coverage Status](https://coveralls.io/repos/io-digital/hughes-bgan-base/badge.svg?branch=master)](https://coveralls.io/r/io-digital/hughes-bgan-base?branch=master)
+[![Dependency Status](https://david-dm.org/io-digital/hughes-bgan-base.svg)](https://david-dm.org/io-digital/hughes-bgan-base)
 
 A base package for communication to a Hughes BGAN device.
 
