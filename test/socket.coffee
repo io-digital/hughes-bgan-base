@@ -6,32 +6,26 @@ chai.use(require('sinon-chai'))
 
 socket = require('../lib/socket')
 
+it 'socket constructor should set the idle timeout', ->
+
+  expect(socket._idleTimeout).to.be.gt(-1)
+
 destroySpy = sinon.spy(socket, '_destroy')
 
-describe 'socket', ->
+afterEach ->
+  destroySpy.reset()
 
-  describe '#setTimeout', ->
+it 'socket should call #destroy on timeout', ->
 
-    it 'should be set to 30000', ->
+  socket.emit('timeout')
+  expect(destroySpy).to.have.been.called
 
-      expect(socket._idleTimeout).to.equal(30000)
+it 'socket should call #destroy on end', ->
 
-  describe '#destruct', ->
+  socket.emit('end')
+  expect(destroySpy).to.have.been.called
 
-    afterEach ->
-      destroySpy.reset()
+it 'socket should call #destroy on error', ->
 
-    it 'should call #destruct on timeout', ->
-
-      socket.emit('timeout')
-      expect(destroySpy).to.have.been.called
-
-    it 'should call #destruct on end', ->
-
-      socket.emit('end')
-      expect(destroySpy).to.have.been.called
-
-    it 'should call #destruct on error', ->
-
-      socket.emit('error')
-      expect(destroySpy).to.have.been.called
+  socket.emit('error')
+  expect(destroySpy).to.have.been.called
