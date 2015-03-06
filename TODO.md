@@ -1,2 +1,4 @@
 - [x] rewrite the AT command output parser (sanitiser). should be easier to split around '\r\n' instead of regex replacing the \r\n.
 - [x] inline as many functions as possible into sanitiser
+- [ ] abstract commander a bit further
+- [ ] add more commands from the at command reference library
