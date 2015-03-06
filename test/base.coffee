@@ -155,3 +155,42 @@ describe 'Base', ->
       expect(baseQueueSpliceSpy).to.have.been.called
       expect(baseCommandBufferEnqueueSpy).to.have.been.called
       expect(baseCommandBufferFlushSpy).to.have.been.called
+
+  describe 'control variables', ->
+
+    base = new Base(host: '123.123.123.132', port: 9000, commands: ["abc"])
+
+    describe '@nExpectedResponses', ->
+
+      it 'should be set to the length of the commands array', ->
+
+        expect(base.nExpectedResponses).to.equal(base.commands.length)
+
+    describe '@controlResponses', ->
+
+      it 'should be set to zero at construction', ->
+
+        expect(base.controlResponses).to.equal(0)
+
+      it 'should increment when a control response (OK, ERROR) is received and parsed', ->
+
+        base.socket.emit('data', new Buffer('OK\r\n'))
+        expect(base.controlResponses).to.equal(1)
+
+    describe 'completed condition', ->
+
+      it 'should cause socket and base class instance to emit \'end\' events', ->
+
+        base = new Base(host: '123.123.123.132', port: 9000, commands: ["abc"])
+
+        baseSocketEmitEndSpy = sinon.spy(base.socket, 'emit')
+        baseEmitEndSpy = sinon.spy(base, 'emit')
+
+        expect(base.nExpectedResponses).to.equal(base.commands.length)
+        expect(base.controlResponses).to.equal(0)
+        base.socket.emit('data', new Buffer('OK\r\n'))
+
+        process.nextTick ->
+          # expect(base.controlResponses).to.equal(1)
+          expect(baseSocketEmitEndSpy).to.have.been.calledWith('end')
+          expect(baseEmitEndSpy).to.have.been.calledWith('end')
