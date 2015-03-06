@@ -156,7 +156,7 @@ module.exports = class Commander
   cpbr: (start, end) =>
     if start and end
       "at+cpbr=#{start},#{end}#{@lineEnding}"
-    else if start
+    else
       "at+cpbr=#{start}#{@lineEnding}"
 
   cpbw: (index, number, type, alpha) =>
@@ -392,14 +392,12 @@ module.exports = class Commander
     "at_isendfile=\"#{localdir}\",\"#{file}\",\"#{remotedir}\",\"#{remoteip}\",\"#{username}\",\"#{password}\"#{@lineEnding}"
 
   igetfile: (remotedir, file, localdir, serverip, username, password, apnname, apnuname, apnpassword) =>
-    if remotedir and file and localdir and serverip and username and password
-      if apnname
-        if apnuname and apnpassword
-          "at_igetfile=\"#{remotedir}\",\"#{file}\",\"#{localdir}\",\"#{serverip}\",\"#{username}\",\"#{password}\",\"#{apnname}\",\"#{apnuname}\",\"#{apnpassword}\"#{@lineEnding}"
-        else
-          "at_igetfile=\"#{remotedir}\",\"#{file}\",\"#{localdir}\",\"#{serverip}\",\"#{username}\",\"#{password}\",\"#{apnname}\"#{@lineEnding}"
-      else
-        "at_igetfile=\"#{remotedir}\",\"#{file}\",\"#{localdir}\",\"#{serverip}\",\"#{username}\",\"#{password}\"#{@lineEnding}"
+    if remotedir and file and localdir and serverip and username and password and apnname and apnuname and apnpassword
+      "at_igetfile=\"#{remotedir}\",\"#{file}\",\"#{localdir}\",\"#{serverip}\",\"#{username}\",\"#{password}\",\"#{apnname}\",\"#{apnuname}\",\"#{apnpassword}\"#{@lineEnding}"
+    else if remotedir and file and localdir and serverip and username and password and apnname
+      "at_igetfile=\"#{remotedir}\",\"#{file}\",\"#{localdir}\",\"#{serverip}\",\"#{username}\",\"#{password}\",\"#{apnname}\"#{@lineEnding}"
+    else if remotedir and file and localdir and serverip and username and password
+      "at_igetfile=\"#{remotedir}\",\"#{file}\",\"#{localdir}\",\"#{serverip}\",\"#{username}\",\"#{password}\"#{@lineEnding}"
     else
       "at_igetfile?#{@lineEnding}"
 
@@ -424,19 +422,18 @@ module.exports = class Commander
       "at_iatcrobst?#{@lineEnding}"
 
   ihinit: (subsystem, status) =>
-    if (subsystem and status)
+    if subsystem and status
       "at_ihinit=\"#{subsystem}\",#{status}#{@lineEnding}"
-    else if (subsystem and not status)
+    else if subsystem
       "at_ihinit=\"#{subsystem}\"#{@lineEnding}"
     else
       "at_ihinit?#{@lineEnding}"
 
   ihip: (subsystem, value) =>
-    if subsystem
-      if value
-        "at_ihip=\"#{subsystem}\",\"#{value}\"#{@lineEnding}"
-      else
-        "at_ihip=\"#{subsystem}\"#{@lineEnding}"
+    if subsystem and value
+      "at_ihip=\"#{subsystem}\",\"#{value}\"#{@lineEnding}"
+    else if subsystem
+      "at_ihip=\"#{subsystem}\"#{@lineEnding}"
     else
       "at_ihip?#{@lineEnding}"
 
@@ -447,11 +444,10 @@ module.exports = class Commander
       "at_ihstatus?#{@lineEnding}"
 
   ihset: (subsystem, value) =>
-    if subsystem
-      if value
-        "at_ihset=\"#{subsystem}\",\"#{value}\"#{@lineEnding}"
-      else
-        "at_ihset=\"#{subsystem}\"#{@lineEnding}"
+    if subsystem and value
+      "at_ihset=\"#{subsystem}\",\"#{value}\"#{@lineEnding}"
+    else if subsystem
+      "at_ihset=\"#{subsystem}\"#{@lineEnding}"
     else
       "at_ihset?#{@lineEnding}"
 
@@ -512,11 +508,10 @@ module.exports = class Commander
       "at_ihtm?#{@lineEnding}"
 
   ihtxcw: (freq, offset, backoff) =>
-    if freq and offset
-      if backoff
-        "at_ihtxcw=#{freq},#{offset},#{backoff}#{@lineEnding}"
-      else
-        "at_ihtxcw=#{freq},#{offset}#{@lineEnding}"
+    if freq and offset and backoff
+      "at_ihtxcw=#{freq},#{offset},#{backoff}#{@lineEnding}"
+    else if freq and offset
+      "at_ihtxcw=#{freq},#{offset}#{@lineEnding}"
     else
       "at_ihtxcw?#{@lineEnding}"
 
@@ -539,11 +534,10 @@ module.exports = class Commander
     "at_ihsigacq?#{@lineEnding}"
 
   ihgps: (latdeg, latmin, latsense, londeg, lonmin, lonsense, time, fix, alt, altsense, nos, hdop) =>
-    if latdeg and latmin and latsense and londeg and lonmin and lonsense and time
-      if fix and alt and altsense and nos and hdop
-        "at_ihgps=#{latdeg},#{latmin},#{latsense},#{londeg},#{lonmin},#{lonsense},\"#{time}\",#{fix},#{alt},#{altsense},#{nos},#{hdop}#{@lineEnding}"
-      else
-        "at_ihgps=#{latdeg},#{latmin},#{latsense},#{londeg},#{lonmin},#{lonsense},\"#{time}\"#{@lineEnding}"
+    if latdeg and latmin and latsense and londeg and lonmin and lonsense and time and fix and alt and altsense and nos and hdop
+      "at_ihgps=#{latdeg},#{latmin},#{latsense},#{londeg},#{lonmin},#{lonsense},\"#{time}\",#{fix},#{alt},#{altsense},#{nos},#{hdop}#{@lineEnding}"
+    else if latdeg and latmin and latsense and londeg and lonmin and lonsense and time
+      "at_ihgps=#{latdeg},#{latmin},#{latsense},#{londeg},#{lonmin},#{lonsense},\"#{time}\"#{@lineEnding}"
 
   ihreboot: =>
     "at_ihreboot#{@lineEnding}"

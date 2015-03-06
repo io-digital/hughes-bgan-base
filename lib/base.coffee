@@ -5,9 +5,6 @@ Parser         = require('./parser')
 
 module.exports = class Base extends EventEmitter
 
-  responses = 0
-  nExpectedResponses = 0
-
   constructor: (opts) ->
 
     { @stripResponses,
@@ -27,7 +24,8 @@ module.exports = class Base extends EventEmitter
       @commandBuffer.pause()
     )
 
-    nExpectedResponses = @commands.length ? 0
+    @nExpectedResponses = @commands.length ? 0
+    @controlResponses = 0
 
     @queue = @commands[..]
     @responses = []
@@ -45,7 +43,7 @@ module.exports = class Base extends EventEmitter
 
       for response in parser.parsed
         if (response is 'OK' or response is 'ERROR')
-          responses++
+          @controlResponses++
 
       if @stripResponses
         @responses = @responses.concat(parser.stripped)
@@ -60,7 +58,7 @@ module.exports = class Base extends EventEmitter
         @commandBuffer.enqueue(@queue.splice(0, 1))
         @commandBuffer.flush()
 
-      if responses is nExpectedResponses
+      if @controlResponses is @nExpectedResponses
         @emit('end', @responses)
         @socket.emit('end')
     )
