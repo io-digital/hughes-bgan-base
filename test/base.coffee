@@ -44,20 +44,14 @@ describe 'Base', ->
 
       base = new Base({
         stripResponses: true,
-        autoConnect: false,
         commands: [],
-        onData: ->,
-        onEnd: ->,
         host: '123.123.123.123',
         port: 1234
       })
 
       expect(base).to.contain.keys([
         'stripResponses',
-        'autoConnect',
         'commands',
-        'onData',
-        'onEnd',
         'host',
         'port'
       ])
