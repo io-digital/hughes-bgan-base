@@ -10,15 +10,13 @@ module.exports = class Base extends EventEmitter
 
   constructor: (opts) ->
 
-    {
-      @stripResponses,
+    { @stripResponses,
       @autoConnect,
       @commands,
       @onData,
       @onEnd,
       @host,
-      @port
-    } = opts
+      @port } = opts
 
     unless opts and @host and @port and Array.isArray(@commands)
       throw new Error('A socket address and command queue are required.')
