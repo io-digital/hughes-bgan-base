@@ -191,6 +191,5 @@ describe 'Base', ->
         base.socket.emit('data', new Buffer('OK\r\n'))
 
         process.nextTick ->
-          # expect(base.controlResponses).to.equal(1)
           expect(baseSocketEmitEndSpy).to.have.been.calledWith('end')
           expect(baseEmitEndSpy).to.have.been.calledWith('end')
