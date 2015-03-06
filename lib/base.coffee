@@ -63,9 +63,6 @@ module.exports = class Base extends EventEmitter
         @socket.emit('end')
     )
 
-    if @autoConnect
-      process.nextTick( => @connect())
-
   connect: =>
     @socket.connect(@port, @host, =>
       @commandBuffer.enqueue(@queue.splice(0, 1))

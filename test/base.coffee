@@ -81,9 +81,9 @@ describe 'Base', ->
 
         base = new Base(host: '123.123.123.132', port: 9000, commands: ['abc', '123', '456'])
         baseDataEmitSpy = sinon.spy(base, 'emit')
+        base.socket.emit('data', new Buffer(0x4f, 0x12f))
 
         process.nextTick ->
-          base.socket.emit('data', new Buffer(0x4f, 0x12f))
           expect(baseDataEmitSpy).to.have.been.called
 
       it 'should cause the base class instance property commandBuffer resume itself, enqueue another command, flush the command and then pause itself', ->
@@ -95,8 +95,9 @@ describe 'Base', ->
         commandBufferFlushSpy = sinon.spy(base.commandBuffer, 'flush')
         commandBufferPauseSpy = sinon.spy(base.commandBuffer, 'pause')
 
+        base.socket.emit('data', new Buffer(0x4f, 0x12f))
+
         process.nextTick ->
-          base.socket.emit('data', new Buffer(0x4f, 0x12f))
           expect(commandBufferResumeSpy).to.have.been.called
           expect(commandBufferEnqueueSpy).to.have.been.called
           expect(commandBufferFlushSpy).to.have.been.called
@@ -117,17 +118,12 @@ describe 'Base', ->
     it 'should call base.socket.connect on base.connect', ->
 
       base = new Base({
-        stripResponses: true,
-        autoConnect: false,
         commands: ['abc', '123', '456'],
-        onData: ->,
-        onEnd: ->,
         host: '123.123.123.123',
         port: 1234
       })
 
       baseSocketConnectSpy = sinon.spy(base.socket, 'connect')
-
       expect(base.connect).to.not.throw()
       expect(baseSocketConnectSpy).to.have.been.called
 
@@ -135,10 +131,7 @@ describe 'Base', ->
 
       base = new Base({
         stripResponses: true,
-        autoConnect: false,
         commands: ['abc', '123', '456'],
-        onData: ->,
-        onEnd: ->,
         host: '123.123.123.123',
         port: 1234
       })

@@ -25,9 +25,8 @@ var base = new bgan.base({
     'at h0',
     _.iclck('ad', '1')
   ],
-  autoConnect: true,
   stripResponses: true,
   onData:  function(parsed, raw) {},
   onEnd: function(lines) {}
-});
+}).connect();
 ```
