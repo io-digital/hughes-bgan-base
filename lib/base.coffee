@@ -39,7 +39,7 @@ module.exports = class Base extends EventEmitter
       parser = new Parser(strung)
 
       for response in parser.parsed
-        @controlResponses += 1 if (response is 'OK' or response is 'ERROR')
+        @controlResponses += 1 if response in ['OK', 'ERROR']
 
       if @stripResponses
         @responses = @responses.concat(parser.stripped)
@@ -66,3 +66,4 @@ module.exports = class Base extends EventEmitter
       @commandBuffer.enqueue(@queue.splice(0, 1))
       @commandBuffer.flush()
     )
+

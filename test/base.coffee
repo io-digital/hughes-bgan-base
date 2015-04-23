@@ -135,6 +135,7 @@ describe 'Base', ->
 
       expect(base.connect).to.not.throw()
 
+      # just pretend that we've connected and
       # cause the base.socket callback to fire
       base.socket.emit('connect')
 
@@ -161,7 +162,8 @@ describe 'Base', ->
       it 'should increment when a control response (OK, ERROR) is received and parsed', ->
 
         base.socket.emit('data', new Buffer('OK\r\n'))
-        expect(base.controlResponses).to.equal(1)
+        base.socket.emit('data', new Buffer('ERROR\r\n'))
+        expect(base.controlResponses).to.equal(2)
 
     describe 'completed condition', ->
 
