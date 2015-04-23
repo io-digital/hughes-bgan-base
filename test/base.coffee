@@ -77,10 +77,9 @@ describe 'Base', ->
         baseDataEmitSpy = sinon.spy(base, 'emit')
         base.socket.emit('data', new Buffer(0x4f, 0x12f))
 
-        process.nextTick ->
-          expect(baseDataEmitSpy).to.have.been.called
+        process.nextTick -> expect(baseDataEmitSpy).to.have.been.called
 
-      it 'should cause the base class instance property commandBuffer resume itself, enqueue another command, flush the command and then pause itself', ->
+      it 'should cause the base class instance property commandBuffer to resume itself, enqueue another command, flush the command and then pause itself', ->
 
         base = new Base(host: '123.123.123.132', port: 9000, commands: ['abc', '123', '456'])
 
@@ -97,7 +96,7 @@ describe 'Base', ->
           expect(commandBufferFlushSpy).to.have.been.called
           expect(commandBufferPauseSpy).to.have.been.called
 
-      it 'should cause the base class instance property socket to write something when the commandBuffer is flushed', ->
+      it 'should cause the base class instance property socket to write another command when the commandBuffer is flushed', ->
 
         base = new Base(host: '123.123.123.132', port: 9000, commands: ['abc', '123', '456'])
 
