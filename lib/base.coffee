@@ -30,11 +30,8 @@ module.exports = class Base extends EventEmitter
     @queue = @commands[..]
     @responses = []
 
-    if typeof @onData is 'function'
-      @on('data', @onData)
-
-    if typeof @onEnd is 'function'
-      @on('end', @onEnd)
+    @on('data', @onData) if typeof @onData is 'function'
+    @on('end', @onEnd) if typeof @onEnd is 'function'
 
     @socket.on('data', (data) =>
 
@@ -42,8 +39,7 @@ module.exports = class Base extends EventEmitter
       parser = new Parser(strung)
 
       for response in parser.parsed
-        if (response is 'OK' or response is 'ERROR')
-          @controlResponses++
+        @controlResponses += 1 if (response is 'OK' or response is 'ERROR')
 
       if @stripResponses
         @responses = @responses.concat(parser.stripped)
@@ -62,6 +58,8 @@ module.exports = class Base extends EventEmitter
         @emit('end', @responses)
         @socket.emit('end')
     )
+
+    process.nextTick( => @connect()) if @autoConnect
 
   connect: =>
     @socket.connect(@port, @host, =>

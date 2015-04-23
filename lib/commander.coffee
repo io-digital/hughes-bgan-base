@@ -55,7 +55,10 @@ module.exports = class Commander
     "at+cbc#{@lineEnding}"
 
   cmee: (level) =>
-    "at+cmee=#{level}#{@lineEnding}"
+    if level
+      "at+cmee=#{level}#{@lineEnding}"
+    else
+      "at+cmee?#{@lineEnding}"
 
   cscs: (charset) =>
     if charset
