@@ -26,7 +26,7 @@ var base = new bgan.base({
     _.iclck('ad', '1')
   ],
   stripResponses: true,
-  onData:  function(parsed, raw) {},
-  onEnd: function(lines) {}
+  onData:  function(line, raw) {},
+  onEnd: function(lines, raw) {}
 }).connect();
 ```
